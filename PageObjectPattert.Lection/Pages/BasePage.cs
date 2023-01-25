@@ -9,17 +9,26 @@ public abstract class BasePage
 {
     protected IWebDriver WebDriver { get; }
 
+    protected WebDriverWait WebDriverWait { get; }
+
+    protected DefaultWait<IWebDriver> FluentWait { get; }
+    
+    protected IJavaScriptExecutor JavaScriptExecutor { get; }
+
     protected BasePage(IWebDriver webDriver)
     {
         WebDriver = webDriver;
+        WebDriverWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(AppConfiguration.ConditionTimeout));
+        FluentWait = new DefaultWait<IWebDriver>(WebDriver);
+        JavaScriptExecutor = (IJavaScriptExecutor)WebDriver;
     }
 
     protected IWebElement UniqueWebElement => WebDriver.FindElement(UniqueWebLocator);
-    
+
     protected abstract By UniqueWebLocator { get; }
 
     private readonly string _baseUrl = AppConfiguration.Url;
-    
+
     protected abstract string UrlPath { get; }
 
     public void OpenPage()
@@ -59,5 +68,17 @@ public abstract class BasePage
         {
             throw new AssertionException($"Page with unique locator: '{UniqueWebLocator}' was not opened", e);
         }
+    }
+
+    protected void SafeWaitForPageLoadViaJs()
+    {
+        FluentWait.Timeout = TimeSpan.FromSeconds(20);
+        FluentWait.PollingInterval = TimeSpan.FromSeconds(2);
+
+        FluentWait.Until(d =>
+        {
+            var result = JavaScriptExecutor.ExecuteScript("return document.readyState");
+            return result.Equals("complete");
+        });
     }
 }
