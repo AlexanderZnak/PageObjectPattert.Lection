@@ -22,6 +22,7 @@ public class WebDriverFactory
             case Browser.Chrome:
                 new DriverManager().SetUpDriver(new ChromeConfig(), "MatchingBrowser");
                 var options = new ChromeOptions();
+                options.PageLoadStrategy = PageLoadStrategy.Normal;
                 options.AddArguments(ChromeArguments());
                 driver = new ChromeDriver(options);
                 return driver;
