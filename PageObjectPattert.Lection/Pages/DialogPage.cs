@@ -20,19 +20,6 @@ public class DialogPage : BasePage
 
     private IWebElement CreateUserButton => WebDriver.FindElement(DialogPageLocators.UserButtonLocator);
 
-    private IWebElement ModalFormIFrame => WebDriver.FindElement(DialogPageLocators.ModalFormIFrameLocator);
-
-    private void BreakInToModalFormIFrame()
-    {
-        if (IsInModalFormIFrame)
-        {
-            return;
-        }
-
-        WebDriver.SwitchTo().Frame(ModalFormIFrame);
-        IsInModalFormIFrame = true;
-    }
-
     public bool IsModalFormAppeared
     {
         get

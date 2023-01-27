@@ -12,6 +12,10 @@ public abstract class BaseTest
     
     protected HomePage HomePage { get; private set; }
     
+    protected SelectmenuPage SelectmenuPage { get; private set; }
+    
+    protected DraggablePage DraggablePage { get; private set; }
+    
     [SetUp]
     public void SetUp()
     {
@@ -21,6 +25,8 @@ public abstract class BaseTest
         
         DialogPage = new DialogPage(WebDriver);
         HomePage = new HomePage(WebDriver);
+        SelectmenuPage = new SelectmenuPage(WebDriver);
+        DraggablePage = new DraggablePage(WebDriver);
     }
 
     [TearDown]
