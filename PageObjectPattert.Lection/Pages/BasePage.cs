@@ -1,6 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using PageObjectPattert.Lection.Configurations;
+using PageObjectPattert.Lection.Locators;
 using PageObjectPattert.Lection.Utilities;
 
 namespace PageObjectPattert.Lection.Pages;
@@ -13,8 +14,12 @@ public abstract class BasePage
     {
         WebDriver = webDriver;
     }
+    
+    protected bool IsInModalFormIFrame { get; set; }
 
     protected IWebElement UniqueWebElement => WebDriver.FindElement(UniqueWebLocator);
+    
+    private IWebElement ModalFormIFrame => WebDriver.FindElement(DialogPageLocators.ModalFormIFrameLocator);
     
     protected abstract By UniqueWebLocator { get; }
 
@@ -59,5 +64,16 @@ public abstract class BasePage
         {
             throw new AssertionException($"Page with unique locator: '{UniqueWebLocator}' was not opened", e);
         }
+    }
+    
+    public void BreakInToModalFormIFrame()
+    {
+        if (IsInModalFormIFrame)
+        {
+            return;
+        }
+
+        WebDriver.SwitchTo().Frame(ModalFormIFrame);
+        IsInModalFormIFrame = true;
     }
 }

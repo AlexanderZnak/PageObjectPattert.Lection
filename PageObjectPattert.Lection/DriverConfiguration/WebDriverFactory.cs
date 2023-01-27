@@ -3,7 +3,6 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using PageObjectPattert.Lection.Configurations;
-using PageObjectPattert.Lection.Utilities;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -11,6 +10,8 @@ namespace PageObjectPattert.Lection.DriverConfiguration;
 
 public class WebDriverFactory
 {
+    private DriverOptions Options { get; set; }
+
     public IWebDriver GetDriver()
     {
         IWebDriver driver;
@@ -21,7 +22,9 @@ public class WebDriverFactory
         {
             case Browser.Chrome:
                 new DriverManager().SetUpDriver(new ChromeConfig(), "MatchingBrowser");
-                var options = new ChromeOptions();
+                Options = new ChromeOptions();
+                var options = (ChromeOptions)Options;
+                // AddChromePreferences();
                 options.AddArguments(ChromeArguments());
                 driver = new ChromeDriver(options);
                 return driver;
@@ -33,6 +36,34 @@ public class WebDriverFactory
                 return driver;
             default: throw new ArgumentException($"Browser '{browser}' is not supported yet");
         }
+    }
+
+    private string GetDownloadDirPath()
+    {
+        var relativePath = AppConfiguration.DownloadDir;
+        var fullPath = Path.Combine(AppContext.BaseDirectory, relativePath);
+
+        return fullPath;
+    }
+
+    private void AddChromePreferences()
+    {
+        var options = (ChromeOptions)Options;
+
+        foreach (var preference in GetChromePreferences())
+        {
+            options.AddUserProfilePreference(preference.Key, preference.Value);
+        }
+    }
+
+    private IDictionary<string, string> GetChromePreferences()
+    {
+        var dict = new Dictionary<string, string>()
+        {
+            { "download.default_directory", GetDownloadDirPath() }
+        };
+
+        return dict;
     }
 
     private IEnumerable<string> ChromeArguments()
