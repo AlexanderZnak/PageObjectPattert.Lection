@@ -25,6 +25,7 @@ public abstract class BasePage
     public void OpenPage()
     {
         var uri = new Uri(_baseUrl.TrimEnd('/') + UrlPath, UriKind.Absolute);
+        Logger.Instance.Info(uri.ToString());
         WebDriver.Navigate().GoToUrl(uri);
         WaitForPageLoad();
     }
@@ -50,6 +51,8 @@ public abstract class BasePage
     public void WaitForPageLoad()
     {
         var driverWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(3));
+        Logger.Instance.Debug("Debugging Waiting Page");
+        Logger.Instance.Info("Waiting Page");
 
         try
         {

@@ -1,11 +1,22 @@
+using Allure.Net.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
 using OpenQA.Selenium.Chrome;
 using PageObjectPattert.Lection.Pages;
 
 namespace PageObjectPattert.Lection.Tests;
 
+[AllureNUnit]
 public class ModalFormTests : BaseTest
 {
     [Test]
+    [AllureTag("Regression")]
+    [AllureSeverity(SeverityLevel.critical)]
+    [AllureIssue("Issue - 2")]
+    [AllureTms("Tms-13")]
+    [AllureOwner("Aliaksandr Znak")]
+    [AllureSuite("Modal tests")]
+    [AllureSubSuite("Positive")]
     public void ModalFormAfterClick_ShouldBeAppeared()
     {
         // open jquery site
@@ -28,6 +39,13 @@ public class ModalFormTests : BaseTest
     }
     
     [Test]
+    [AllureTag("Regression")]
+    [AllureSeverity(SeverityLevel.critical)]
+    [AllureIssue("Issue - 1")]
+    [AllureTms("Tms-12")]
+    [AllureOwner("Aliaksandr Znak")]
+    [AllureSuite("Modal tests")]
+    [AllureSubSuite("Positive")]
     public void ModalFormAfterClick_GetRidPageOpenAssertions_ShouldBeAppeared()
     {
         // open jquery site
