@@ -1,3 +1,4 @@
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 
 namespace PageObjectPattert.Lection.Pages;
@@ -17,6 +18,7 @@ public class HomePage : BasePage
 
     private IWebElement LeftMenuDialogIcon => WebDriver.FindElement(_leftMenuDialogIconLocator);
 
+    [AllureStep("Go to menu dialog")]
     public void ClickLeftMenuDialogIcon()
     {
         LeftMenuDialogIcon.Click();
