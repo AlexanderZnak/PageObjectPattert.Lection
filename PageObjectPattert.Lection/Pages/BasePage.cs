@@ -1,7 +1,9 @@
+using NUnit.Allure.Attributes;
+using NUnit.Framework.Internal;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using PageObjectPattert.Lection.Configurations;
-using PageObjectPattert.Lection.Utilities;
+using Logger = PageObjectPattert.Lection.Utilities.Logger;
 
 namespace PageObjectPattert.Lection.Pages;
 
@@ -15,16 +17,18 @@ public abstract class BasePage
     }
 
     protected IWebElement UniqueWebElement => WebDriver.FindElement(UniqueWebLocator);
-    
+
     protected abstract By UniqueWebLocator { get; }
 
     private readonly string _baseUrl = AppConfiguration.Url;
-    
+
     protected abstract string UrlPath { get; }
 
+    [AllureStep("Open page")]
     public void OpenPage()
     {
         var uri = new Uri(_baseUrl.TrimEnd('/') + UrlPath, UriKind.Absolute);
+        Logger.Instance.Info(uri.ToString());
         WebDriver.Navigate().GoToUrl(uri);
         WaitForPageLoad();
     }
@@ -57,7 +61,9 @@ public abstract class BasePage
         }
         catch (WebDriverTimeoutException e)
         {
-            throw new AssertionException($"Page with unique locator: '{UniqueWebLocator}' was not opened", e);
+            var errorMessage = $"Page with unique locator: '{UniqueWebLocator}' was not opened";
+            Logger.Instance.Fatal(errorMessage);
+            throw new AssertionException(errorMessage, e);
         }
     }
 }

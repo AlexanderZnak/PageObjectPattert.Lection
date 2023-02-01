@@ -1,5 +1,7 @@
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using PageObjectPattert.Lection.Locators;
+using PageObjectPattert.Lection.Utilities;
 
 namespace PageObjectPattert.Lection.Pages;
 
@@ -22,17 +24,20 @@ public class DialogPage : BasePage
 
     private IWebElement ModalFormIFrame => WebDriver.FindElement(DialogPageLocators.ModalFormIFrameLocator);
 
+    [AllureStep("Break in modal")]
     private void BreakInToModalFormIFrame()
     {
         if (IsInModalFormIFrame)
         {
             return;
         }
+        
+        Logger.Instance.Info($"Go to IFrame: '{ModalFormIFrame}'");
 
         WebDriver.SwitchTo().Frame(ModalFormIFrame);
         IsInModalFormIFrame = true;
     }
-
+    
     public bool IsModalFormAppeared
     {
         get
@@ -52,6 +57,7 @@ public class DialogPage : BasePage
         }
     }
 
+    [AllureStep("Open modal form from examples table")]
     public void ClickModalFormIconFromExamplesTable()
     {
         ModalFormIcon.Click();
@@ -62,7 +68,7 @@ public class DialogPage : BasePage
         ClickCreateUserButtonUnsuccessful();
         WaitForPageLoad();
     }
-
+    
     public void ClickCreateUserButtonUnsuccessful()
     {
         CreateUserButton.Click();
