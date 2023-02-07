@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using PageObjectPattert.Lection.Components;
 using PageObjectPattert.Lection.Configurations;
 using PageObjectPattert.Lection.Utilities;
 
@@ -14,12 +15,14 @@ public abstract class BasePage
         WebDriver = webDriver;
     }
 
+    public virtual TopMenuComponent TopMenuComponent => new TopMenuComponent(WebDriver);
+
     protected IWebElement UniqueWebElement => WebDriver.FindElement(UniqueWebLocator);
-    
+
     protected abstract By UniqueWebLocator { get; }
 
     private readonly string _baseUrl = AppConfiguration.Url;
-    
+
     protected abstract string UrlPath { get; }
 
     public void OpenPage()
