@@ -54,6 +54,7 @@ public class DialogPage : BasePage
 
     public void ClickModalFormIconFromExamplesTable()
     {
+        BreakInToModalFormIFrame();
         ModalFormIcon.Click();
     }
 
@@ -66,5 +67,40 @@ public class DialogPage : BasePage
     public void ClickCreateUserButtonUnsuccessful()
     {
         CreateUserButton.Click();
+    }
+
+    public DialogPage InputName(string name)
+    {
+        return this;
+    }
+
+    public DialogPage InputEmail(string email)
+    {
+        return this;
+    }
+
+    public DialogPage InputPassword(string pass)
+    {
+        return this;
+    }
+
+    public void PhoneNumber(string phoneNumber)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void InputPhoneNumber(string phoneNumber)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ClickCreateAnAccountButton()
+    {
+        throw new NotImplementedException();
+    }
+
+    public string GetUserName()
+    {
+        throw new NotImplementedException();
     }
 }
